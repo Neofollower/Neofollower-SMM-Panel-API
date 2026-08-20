@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "NeoFollower Reseller API",
+    "description": "Official NeoFollower SMM Panel Reseller API requests. Set api_key before sending.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://panel.neofollower.com/api/v1"
+    },
+    {
+      "key": "api_key",
+      "value": "YOUR_API_KEY"
+    },
+    {
+      "key": "service_id",
+      "value": "123"
+    },
+    {
+      "key": "order_id",
+      "value": "32"
+    }
+  ],
+  "item": [
+    {
+      "name": "List services",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "key",
+              "value": "{{api_key}}",
+              "type": "text"
+            },
+            {
+              "key": "action",
+              "value": "services",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{base_url}}"
+      }
+    },
+    {
+      "name": "Place standard order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "key",
+              "value": "{{api_key}}",
+              "type": "text"
+            },
+            {
+              "key": "action",
+              "value": "add",
+              "type": "text"
+            },
+            {
+              "key": "service",
+              "value": "{{service_id}}",
+              "type": "text"
+            },
+            {
+              "key": "link",
+              "value": "https://example.com/post",
+              "type": "text"
+            },
+            {
+              "key": "quantity",
+              "value": "100",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{base_url}}"
+      }
+    },
+    {
+      "name": "Single order status",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "key",
+              "value": "{{api_key}}",
+              "type": "text"
+            },
+            {
+              "key": "action",
+              "value": "status",
+              "type": "text"
+            },
+            {
+              "key": "order",
+              "value": "{{order_id}}",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{base_url}}"
+      }
+    },
+    {
+      "name": "Multiple order statuses",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "key",
+              "value": "{{api_key}}",
+              "type": "text"
+            },
+            {
+              "key": "action",
+              "value": "status",
+              "type": "text"
+            },
+            {
+              "key": "orders",
+              "value": "12,13,14",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{base_url}}"
+      }
+    },
+    {
+      "name": "Balance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "key",
+              "value": "{{api_key}}",
+              "type": "text"
+            },
+            {
+              "key": "action",
+              "value": "balance",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{base_url}}"
+      }
+    }
+  ]
+}
