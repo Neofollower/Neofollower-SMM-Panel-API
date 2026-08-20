@@ -1,0 +1,16 @@
+# Credentials
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Language caches
+__pycache__/
+*.pyc
+node_modules/
+vendor/

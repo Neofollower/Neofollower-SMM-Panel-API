@@ -1,0 +1,192 @@
+openapi: 3.1.0
+info:
+  title: NeoFollower SMM Panel Reseller API
+  version: "1.0"
+  summary: Official NeoFollower reseller API
+  description: >
+    API definition for the core NeoFollower SMM Panel reseller actions:
+    list services, place orders, check order status, check multiple order
+    statuses, and retrieve account balance.
+  contact:
+    name: NeoFollower
+    url: https://neofollower.com
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: https://panel.neofollower.com
+    description: NeoFollower reseller panel
+paths:
+  /api/v1:
+    post:
+      operationId: resellerApiAction
+      summary: Execute a NeoFollower reseller API action
+      description: >
+        All core actions use the same endpoint. Set `action` to `services`,
+        `add`, `status`, or `balance`.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ApiRequest"
+      responses:
+        "200":
+          description: JSON API response. Shape depends on the requested action.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AddOrderResponse"
+                  - $ref: "#/components/schemas/OrderStatus"
+                  - $ref: "#/components/schemas/BalanceResponse"
+                  - type: array
+                    items:
+                      $ref: "#/components/schemas/Service"
+                  - type: object
+                    additionalProperties: true
+        default:
+          description: Transport or application error
+components:
+  schemas:
+    ApiRequest:
+      type: object
+      required:
+        - key
+        - action
+      properties:
+        key:
+          type: string
+          description: NeoFollower API key.
+        action:
+          type: string
+          enum:
+            - services
+            - add
+            - status
+            - balance
+        service:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Service ID for order creation.
+        link:
+          type: string
+          description: Target link when required by the selected service.
+        quantity:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Quantity when required by the selected service.
+        runs:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Optional drip-feed run count.
+        interval:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Optional drip-feed interval in minutes.
+        comments:
+          type: string
+          description: Newline-separated comments for supported services.
+        usernames:
+          type: string
+          description: Newline-separated usernames for supported services.
+        hashtags:
+          type: string
+          description: Newline-separated hashtags for supported services.
+        hashtag:
+          type: string
+          description: Hashtag for supported service types.
+        username:
+          type: string
+          description: Username or source value, depending on service type.
+        min:
+          oneOf:
+            - type: string
+            - type: integer
+        max:
+          oneOf:
+            - type: string
+            - type: integer
+        delay:
+          oneOf:
+            - type: string
+            - type: integer
+        expiry:
+          type: string
+          description: Optional expiry date in d/m/Y format.
+        order:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Single order ID for a status request.
+        orders:
+          type: string
+          description: Comma-separated order IDs for a multi-status request.
+      additionalProperties: true
+
+    Service:
+      type: object
+      properties:
+        service:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        rate:
+          type: string
+        min:
+          type: string
+        max:
+          type: string
+        type:
+          type: string
+        desc:
+          type: string
+        dripfeed:
+          oneOf:
+            - type: integer
+            - type: boolean
+            - type: string
+      additionalProperties: true
+
+    AddOrderResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        order:
+          oneOf:
+            - type: integer
+            - type: string
+      additionalProperties: true
+
+    OrderStatus:
+      type: object
+      properties:
+        order:
+          type: string
+        status:
+          type: string
+        charge:
+          type: string
+        start_count:
+          type: string
+        remains:
+          type: string
+      additionalProperties: true
+
+    BalanceResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        balance:
+          type: string
+        currency:
+          type: string
+      additionalProperties: true
